@@ -11,8 +11,10 @@ const mysql = require('mysql2');
 
 app.use(
     cors({
-        origin:"http://localhost:3000",
-        methods: ["GET", "POST", "PUT", "DELETE"]
+        "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
     })
 );
 
