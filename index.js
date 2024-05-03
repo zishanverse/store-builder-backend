@@ -4,19 +4,21 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const port = process.env.PORT;
 const app = express();
+const  { v4  } = require('uuid');
+const cors = require("cors");
 app.use(express.json());
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
+app.use(
+    cors({
+        origin:"http://localhost:3000",
+        methods: ["GET", "POST", "PUT", "DELETE"]
+    })
+);
 
+const url = `mysql://${process.env.MYSQLUSER}:${process.env.MYSQLPASSWORD}@${process.env.MYSQLHOST}:${process.env.MYSQLPORT}/${process.env.MYSQLDATABASE}`
 
-
-
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST, // or your MySQL host
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
+const connection = mysql.createConnection(url);
   
   // Connect to MySQL
 connection.connect((err) => {
@@ -28,10 +30,10 @@ connection.connect((err) => {
     app.listen(port, () => {
         console.log("server is running... :)");
       });
-    const query = `SELECT * FROM user WHERE email_phone = 'zishanverse@gmail.com';`;
+    const query = `SELECT * FROM appUser WHERE email_phone = 'zishanverse@gmail.com';`;
     connection.query(query, (err, result) => {
         if (err) throw err;
-        console.log(result[0].id);
+        console.log(result);
     })
 });
 
@@ -39,7 +41,7 @@ connection.connect((err) => {
 app.post("/api/signup", async (request, response) => {
     const { email_phone, password, created_at} = request.body;
     console.log(password);
-    const checkUserQuery = `SELECT * FROM user WHERE email_phone = '${email_phone}';`;
+    const checkUserQuery = `SELECT * FROM appUser WHERE email_phone = '${email_phone}';`;
     connection.query(checkUserQuery, async (err, result) => {
         if (err) throw err;
         else {
@@ -60,7 +62,7 @@ app.post("/api/signup", async (request, response) => {
             } else {
                 const hashPassword = await bcrypt.hash(password, 10);
                 const query = `
-                    INSERT INTO user (email_phone, password, created_at)
+                    INSERT INTO appUser (email_phone, password, created_at)
                     VALUES (
                         '${email_phone}',
                         '${hashPassword}',
@@ -77,9 +79,9 @@ app.post("/api/signup", async (request, response) => {
     });
 });
 
-app.post("/login/", async (request, response) => {
+app.post("/login", async (request, response) => {
     const { email_phone, password } = request.body;
-    const checkUserQuery = `SELECT * FROM user WHERE email_phone = '${email_phone}';`;
+    const checkUserQuery = `SELECT * FROM appUser WHERE email_phone = '${email_phone}';`;
     connection.query(checkUserQuery, async(err, result) => {
         if (err) throw err;
         else {
