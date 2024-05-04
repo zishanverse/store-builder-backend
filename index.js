@@ -73,11 +73,9 @@ app.post("/api/signup", async (request, response) => {
                     );`;
                 connection.query(query, (err, result) => {
                     if (err) throw err;
-                    connection.query(`SELECT * FROM appUser WHERE email_phone = '${email_phone}';`, (err, result) => {
-                        if (err) throw err;
+                    
                         response.status(200);
                         response.send(result);
-                    })
                     
                 })
             }
