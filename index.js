@@ -73,8 +73,12 @@ app.post("/api/signup", async (request, response) => {
                     );`;
                 connection.query(query, (err, result) => {
                     if (err) throw err;
-                    response.status(200);
-                    response.send("User created successfully");
+                    connection.query(`SELECT * FROM appUser WHERE email_phone = '${email_phone}';`, (err, result) => {
+                        if (err) throw err;
+                        response.status(200);
+                        response.send(result);
+                    })
+                    
                 })
             }
             
@@ -100,9 +104,10 @@ app.post("/login", async (request, response) => {
                 } else {
                   const payload = { email_phone};
                   const jwtoken = jwt.sign(payload, "MY_SECRET");
-                  response.send({ jwtToken: jwtoken });
+                  response.send({ jwtToken: jwtoken, user: result });
                 }
             }
         }
     });  
 });
+
