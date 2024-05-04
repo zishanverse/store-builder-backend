@@ -42,7 +42,6 @@ connection.connect((err) => {
 
 app.post("/api/signup", async (request, response) => {
     const { email_phone, password, created_at} = request.body;
-    console.log(password);
     const checkUserQuery = `SELECT * FROM appUser WHERE email_phone = '${email_phone}';`;
     connection.query(checkUserQuery, async (err, result) => {
         if (err) throw err;
@@ -66,16 +65,19 @@ app.post("/api/signup", async (request, response) => {
                 const query = `
                     INSERT INTO appUser (user_site_id, email_phone, password, created_at)
                     VALUES (
-                        '${v4()}'
+                        '${v4()}',
                         '${email_phone}',
                         '${hashPassword}',
                         '${created_at}'
                     );`;
                 connection.query(query, (err, result) => {
                     if (err) throw err;
-                    
-                        response.status(200);
-                        response.send(result);
+                        connection.query(`SELECT * FROM appUser WHERE email_phone = '${email_phone}';`, (err, res) => {
+                            if (err) throw err;
+                            response.status(200);
+                            response.send(res);
+                        })
+                        
                     
                 })
             }
