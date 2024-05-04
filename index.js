@@ -32,7 +32,7 @@ connection.connect((err) => {
     app.listen(port, () => {
         console.log("server is running... :)");
       });
-    const query = `SELECT * FROM appUser WHERE email_phone = 'zishanverse@gmail.com';`;
+    const query = `SELECT * FROM appUser WHERE email_phone = 'zishan@gmail.com';`;
     connection.query(query, (err, result) => {
         if (err) throw err;
         console.log(result);
