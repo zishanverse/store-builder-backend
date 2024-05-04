@@ -64,8 +64,9 @@ app.post("/api/signup", async (request, response) => {
             } else {
                 const hashPassword = await bcrypt.hash(password, 10);
                 const query = `
-                    INSERT INTO appUser (email_phone, password, created_at)
+                    INSERT INTO appUser (user_site_id, email_phone, password, created_at)
                     VALUES (
+                        '${v4()}'
                         '${email_phone}',
                         '${hashPassword}',
                         '${created_at}'
