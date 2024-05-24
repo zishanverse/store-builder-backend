@@ -21,7 +21,7 @@ app.use(
 const url = `mysql://${process.env.MYSQLUSER}:${process.env.MYSQLPASSWORD}@${process.env.MYSQLHOST}:${process.env.MYSQLPORT}/${process.env.MYSQLDATABASE}`
 
 const connection = mysql.createConnection(url);
-  
+
   // Connect to MySQL
 connection.connect((err) => {
     if (err) {
@@ -38,6 +38,7 @@ connection.connect((err) => {
         console.log(result);
     })
 });
+
 
 
 app.post("/api/signup", async (request, response) => {
@@ -77,8 +78,6 @@ app.post("/api/signup", async (request, response) => {
                             response.status(200);
                             response.send(res);
                         })
-                        
-                    
                 })
             }
             
