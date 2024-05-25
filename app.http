@@ -3,9 +3,11 @@ POST https://store-builder-backend.onrender.com/api/signup/
 Content-Type: application/json
 
 {
-    "email_phone": "zishan5@gmail.com",
+    "email_phone": "zishan321@gmail.com",
     "password": "zish6708",
-    "created_at": "2022-03-25"
+    "created_at": "2024-03-25",
+    "site_name": "site",
+    "category": "wordpress"
 }
 
 ###

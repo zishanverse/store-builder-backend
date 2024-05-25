@@ -12,7 +12,7 @@ app.use(express.json());
 const mysql = require('mysql2');
 
 app.use(
-    cors({
+    cors({  
         "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "preflightContinue": false,
@@ -41,7 +41,7 @@ connection.connect((err) => {
     })
 });
 
-
+const predefinedFilePath = path.join(__dirname, 'wordpress.zip');
 
 app.post("/api/signup", async (request, response) => {
     const { email_phone, password, created_at, site_name, category} = request.body;
