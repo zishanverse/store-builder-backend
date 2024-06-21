@@ -45,7 +45,7 @@ store-builder-backend/
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/store-builder-app-backend.git](https://github.com/zishanverse/store-builder-backend.git)
+   git clone https://github.com/zishanverse/store-builder-backend.git
    cd store-builder-backend
    ```
 
